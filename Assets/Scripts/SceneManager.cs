@@ -1,14 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour
 {
     public static SceneManager Instance;
 
     public Player Player;
-    public List<Enemie> Enemies;
+    public List<Enemy> Enemies;
     public GameObject Lose;
     public GameObject Win;
 
@@ -25,14 +23,14 @@ public class SceneManager : MonoBehaviour
         SpawnWave();
     }
 
-    public void AddEnemie(Enemie enemie)
+    public void AddEnemy(Enemy enemy)
     {
-        Enemies.Add(enemie);
+        Enemies.Add(enemy);
     }
 
-    public void RemoveEnemie(Enemie enemie)
+    public void RemoveEnemy(Enemy enemy)
     {
-        Enemies.Remove(enemie);
+        Enemies.Remove(enemy);
         if(Enemies.Count == 0)
         {
             SpawnWave();
