@@ -64,6 +64,7 @@ namespace Characters
       }
       else
       {
+        _agent.isStopped = false;
         _agent.SetDestination(_sceneManager.Player.transform.position);
       }
 
@@ -73,8 +74,8 @@ namespace Characters
 
     protected override void Die()
     {
-      _sceneManager.RemoveEnemy(this);
       isDead = true;
+      _sceneManager.RemoveEnemy(this);
       _sceneManager.Player.TakeHeal(GameConstants.HEAL);
       _animatorController.SetTrigger(AnimatorHash.Die);
     }
