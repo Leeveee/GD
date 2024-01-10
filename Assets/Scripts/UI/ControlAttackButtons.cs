@@ -15,7 +15,7 @@ namespace UI
     [SerializeField]
     private ButtonWithCooldown _superAttack;
     
-    
+    public ButtonWithCooldown SuperAttackComponent => _superAttack;
     private void Awake()
     {
       Instance = this;
@@ -26,6 +26,15 @@ namespace UI
     private void OnDestroy()
     {
       RemoveListeners();
+    }
+
+    public void ActivenessButton(ButtonWithCooldown button, bool active)
+    {
+      if(button.Cooldown.IsCooldown)
+        return;
+      
+      button.Cooldown.CooldownImage.fillAmount = active ? 0 : 1;
+      button.Button.enabled = active;
     }
 
     private void AddListeners()
@@ -40,7 +49,10 @@ namespace UI
       _superAttack.Button.onClick.RemoveListener(SuperAttackClick);
     }
 
-    private void SuperAttackClick() => ButtonClick(_superAttack,SuperAttack);
+    private void SuperAttackClick()
+    {
+      ButtonClick(_superAttack, SuperAttack);
+    }
 
     private void NormalAttackClick()
     {

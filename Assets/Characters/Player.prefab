@@ -108,13 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0d768a0d357334286e5a146ac21b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 715241098628776387}
-  Hp: 10
-  Damage: 1
-  AttackSpeed: 1
-  AttackRange: 2
-  AnimatorController: {fileID: 2111518244622979505}
-  moveSpeed: 5
+  _characterController: {fileID: 715241098628776387}
+  _animatorController: {fileID: 2111518244622979505}
+  _playerData: {fileID: 11400000, guid: 75c760c02d2fd3a4a81802fe3fe9604a, type: 2}
 --- !u!143 &715241098628776387
 CharacterController:
   m_ObjectHideFlags: 0
