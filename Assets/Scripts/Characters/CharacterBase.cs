@@ -13,5 +13,10 @@ namespace Characters
     {
       Hp -= damage;
     }
+    
+    public void TakeHeal (int heal)
+    {
+      Hp += heal;
+    }
   }
 }

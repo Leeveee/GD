@@ -1,3 +1,4 @@
+using Constants;
 using Data;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,14 +19,8 @@ namespace Characters
     private float lastAttackTime;
     protected override float Hp
     {
-      get
-      {
-        return _hp;
-      }
-      set
-      {
-        _hp = Mathf.Clamp(value, 0f, _enemyData.Hp);
-      }
+      get => _hp;
+      set => _hp = Mathf.Clamp(value, 0f, _enemyData.Hp);
     }
 
     private void Awake()
@@ -72,7 +67,7 @@ namespace Characters
         _agent.SetDestination(_sceneManager.Player.transform.position);
       }
 
-      _animatorController.SetFloat("Speed", _agent.speed);
+      _animatorController.SetFloat(AnimatorHash.Speed, _agent.speed);
       //   Debug.Log(Agent.speed);
     }
 
@@ -80,6 +75,7 @@ namespace Characters
     {
       _sceneManager.RemoveEnemy(this);
       isDead = true;
+      _sceneManager.Player.TakeHeal(GameConstants.HEAL);
       _animatorController.SetTrigger(AnimatorHash.Die);
     }
   }

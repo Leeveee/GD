@@ -60,7 +60,7 @@ public class SceneManager : MonoBehaviour
 
     Wave wave = Config.Waves[currWave];
 
-    foreach (GameObject character in wave.Characters)
+    foreach (Enemy character in wave.Enemies)
     {
       Vector3 pos = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
       Instantiate(character, pos, Quaternion.identity);

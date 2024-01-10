@@ -1,3 +1,4 @@
+using Characters;
 using UnityEngine;
 
 namespace Data
@@ -5,6 +6,6 @@ namespace Data
   [CreateAssetMenu(fileName = "Wave", menuName = "Data/Waves")]
   public class Wave : ScriptableObject
   {
-    public GameObject [] Characters;
+    public Enemy [] Enemies;
   }
 }
