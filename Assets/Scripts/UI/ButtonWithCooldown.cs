@@ -8,8 +8,8 @@ namespace UI
     [SerializeField]
     private Button _button;
     [SerializeField]
-    private Cooldown _cooldown;
+    private Cooldown.Cooldown _cooldown;
     public Button Button => _button;
-    public Cooldown Cooldown => _cooldown;
+    public Cooldown.Cooldown Cooldown => _cooldown;
   }
 }

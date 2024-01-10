@@ -591,6 +591,14 @@ PrefabInstance:
       propertyPath: _cooldown._cooldownTime
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5618506660938392509, guid: b2482ca18c40137409ea1ec9df780673, type: 3}
+      propertyPath: _cooldown._cooldownWithAnimationClip._animationClip
+      value: 
+      objectReference: {fileID: -6895459416737596658, guid: cb01db2707aa97a4e94efee03de71f52, type: 3}
+    - target: {fileID: 5618506660938392509, guid: b2482ca18c40137409ea1ec9df780673, type: 3}
+      propertyPath: _cooldown._cooldownWithAnimationClip._isSetAnimationClipForCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7647826548999258097, guid: b2482ca18c40137409ea1ec9df780673, type: 3}
       propertyPath: m_Sprite
       value: 

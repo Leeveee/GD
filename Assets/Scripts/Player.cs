@@ -1,3 +1,5 @@
+using System;
+using UI;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -5,7 +7,7 @@ public class Player : MonoBehaviour
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
     private const float ROTATE_SPEED = 1000f;
-    
+
     [SerializeField]
     public CharacterController controller;
     public float Hp;
@@ -16,6 +18,36 @@ public class Player : MonoBehaviour
     private bool isDead = false;
     public Animator AnimatorController;
     public float moveSpeed = 5f;
+    private ControlAttackButtons _controlAttackButtons;
+    private Enemy closestEnemy = null;
+
+    private void Awake()
+    {
+        _controlAttackButtons = ControlAttackButtons.Instance;
+        _controlAttackButtons.NormalAttack += NormalAttack;
+        _controlAttackButtons.SuperAttack += SuperAttack;
+    }
+
+    private void SuperAttack()
+    {
+        //  throw new NotImplementedException();
+    }
+
+    private void NormalAttack()
+    {
+        AnimatorController.SetTrigger(AnimatorHash.Attack);
+
+        if (closestEnemy != null)
+        {
+            var distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
+
+            if (distance <= AttackRange)
+            {
+                transform.transform.rotation = Quaternion.LookRotation(closestEnemy.transform.position - transform.position);
+                closestEnemy.Hp -= Damage;
+            }
+        }
+    }
 
     private void Update()
     {
@@ -33,11 +65,11 @@ public class Player : MonoBehaviour
         Move();
 
         var enemies = SceneManager.Instance.Enemies;
-        Enemy closestEnemy = null;
 
         for (int i = 0; i < enemies.Count; i++)
         {
             var enemy = enemies[i];
+
             if (enemy == null)
             {
                 continue;
@@ -58,30 +90,13 @@ public class Player : MonoBehaviour
             }
 
         }
-
-        if (closestEnemy != null)
-        {
-            var distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
-            if (distance <= AttackRange)
-            {
-                if (Time.time - lastAttackTime > AttackSpeed)
-                {
-                    //transform.LookAt(closestEnemie.transform);
-                    transform.transform.rotation = Quaternion.LookRotation(closestEnemy.transform.position - transform.position);
-
-                    lastAttackTime = Time.time;
-                    closestEnemy.Hp -= Damage;
-                    AnimatorController.SetTrigger(AnimatorHash.Attack);
-                }
-            }
-        }
     }
 
     private void Move()
     {
         float horizontal = Input.GetAxis(HORIZONTAL);
         float vertical = Input.GetAxis(VERTICAL);
-        
+
         Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
         if (moveDirection != Vector3.zero)
@@ -89,10 +104,11 @@ public class Player : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, Time.deltaTime * ROTATE_SPEED);
         }
-        AnimatorController.SetFloat(AnimatorHash.Walk,moveDirection.magnitude);
+
+        AnimatorController.SetFloat(AnimatorHash.Walk, moveDirection.magnitude);
         controller.Move(moveDirection * moveSpeed * Time.deltaTime);
     }
-   
+
     private void Die()
     {
         isDead = true;
@@ -100,6 +116,4 @@ public class Player : MonoBehaviour
 
         SceneManager.Instance.GameOver();
     }
-
-
 }

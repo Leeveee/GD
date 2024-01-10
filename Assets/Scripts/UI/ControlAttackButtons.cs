@@ -1,17 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace UI
 {
   public class ControlAttackButtons : MonoBehaviour
   {
+    public static ControlAttackButtons Instance;
+    public event Action SuperAttack;
+    public event Action NormalAttack;
+    
     [SerializeField]
     private ButtonWithCooldown _normalAttack;
     [SerializeField]
     private ButtonWithCooldown _superAttack;
-
+    
+    
     private void Awake()
     {
+      Instance = this;
+      
       AddListeners();
     }
 
@@ -22,31 +30,32 @@ namespace UI
 
     private void AddListeners()
     {
-      _normalAttack.Button.onClick.AddListener(NormalAttack);
-      _superAttack.Button.onClick.AddListener(SuperAttack);
+      _normalAttack.Button.onClick.AddListener(NormalAttackClick);
+      _superAttack.Button.onClick.AddListener(SuperAttackClick);
     }
 
     private void RemoveListeners()
     {
-      _normalAttack.Button.onClick.RemoveListener(NormalAttack);
-      _superAttack.Button.onClick.RemoveListener(SuperAttack);
+      _normalAttack.Button.onClick.RemoveListener(NormalAttackClick);
+      _superAttack.Button.onClick.RemoveListener(SuperAttackClick);
     }
 
-    private void SuperAttack() => ButtonClick(_superAttack);
+    private void SuperAttackClick() => ButtonClick(_superAttack,SuperAttack);
 
-    private void NormalAttack()
+    private void NormalAttackClick()
     {
-      ButtonClick(_normalAttack);
+      ButtonClick(_normalAttack,NormalAttack);
       
     }
 
-    private void ButtonClick (ButtonWithCooldown button)
+    private void ButtonClick (ButtonWithCooldown button, Action attack)
     {
       if (button.Cooldown.IsCooldown)
       {
         return;
       }
-
+      
+      attack?.Invoke();
       button.Cooldown.StartCooldown();
       button.Cooldown.CooldownImage.fillAmount = 1;
       StartCoroutine(UpdateCooldownFill(button.Cooldown));
@@ -57,7 +66,7 @@ namespace UI
       }
     }
 
-    private IEnumerator UpdateCooldownFill (Cooldown buttonCooldown)
+    private IEnumerator UpdateCooldownFill (Cooldown.Cooldown buttonCooldown)
     {
       while (buttonCooldown.CooldownImage.fillAmount > 0)
       {
