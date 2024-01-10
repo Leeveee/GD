@@ -6,7 +6,7 @@ namespace Characters
   { 
     [SerializeField]
     protected Animator _animatorController;
-    protected abstract float Hp { get; set; }
+    public abstract float Hp { get; protected set; }
     protected abstract void Die();
     
     public void TakeDamage (int damage)

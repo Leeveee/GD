@@ -1,17 +1,23 @@
+using System;
 using System.Collections.Generic;
 using Characters;
 using Data;
 using UnityEngine;
+using Random = UnityEngine.Random;
 public class SceneManager : MonoBehaviour
 {
   public static SceneManager Instance;
-  [SerializeField]
-  private LevelConfig Config;
 
+  public event Action<int> OnUpdateCountWaves;
+  public event Action OnUpdateCountEnemyOnWave;
+  
   public Player Player;
   public List<Enemy> Enemies;
   public GameObject Lose;
   public GameObject Win;
+
+  [SerializeField]
+  private LevelConfig Config;
 
   private int currWave;
 
@@ -28,6 +34,7 @@ public class SceneManager : MonoBehaviour
   public void AddEnemy (Enemy enemy)
   {
     Enemies.Add(enemy);
+    OnUpdateCountEnemyOnWave?.Invoke();
   }
 
   public void RemoveEnemy (Enemy enemy)
@@ -38,6 +45,8 @@ public class SceneManager : MonoBehaviour
     {
       SpawnWave();
     }
+
+    OnUpdateCountEnemyOnWave?.Invoke();
   }
 
   public void GameOver()
@@ -52,7 +61,7 @@ public class SceneManager : MonoBehaviour
 
   private void SpawnWave()
   {
-    if (currWave >= Config.Waves.Length)
+    if (currWave >= Config.Waves.Length && Enemies.Count==0)
     {
       Win.SetActive(true);
       return;
@@ -67,5 +76,7 @@ public class SceneManager : MonoBehaviour
     }
 
     currWave++;
+    int countActiveWave = Config.Waves.Length - currWave;
+    OnUpdateCountWaves?.Invoke(countActiveWave);
   }
 }

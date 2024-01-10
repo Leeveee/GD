@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Data;
 using UI;
@@ -6,6 +7,8 @@ namespace Characters
 {
   public class Player : CharacterBase
   {
+    public event Action OnUpdateHP;
+    
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
     private const float ROTATE_SPEED = 1000f;
@@ -21,10 +24,14 @@ namespace Characters
     private bool isDead;
     private float _hp;
 
-    protected override float Hp
+    public override float Hp
     {
       get => _hp;
-      set => _hp = Mathf.Clamp(value, 0f, _playerData.Hp);
+      protected set
+      {
+        _hp = Mathf.Clamp(value, 0f, _playerData.Hp);
+        OnUpdateHP?.Invoke();
+      }
     }
 
     private void Awake()

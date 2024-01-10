@@ -17,10 +17,10 @@ namespace Characters
     private bool isDead;
     private float _hp;
     private float lastAttackTime;
-    protected override float Hp
+    public override float Hp
     {
       get => _hp;
-      set => _hp = Mathf.Clamp(value, 0f, _enemyData.Hp);
+      protected set => _hp = Mathf.Clamp(value, 0f, _enemyData.Hp);
     }
 
     private void Awake()
