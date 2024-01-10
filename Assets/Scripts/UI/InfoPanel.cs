@@ -37,6 +37,7 @@ namespace UI
     {
       _sceneManager.OnUpdateCountWaves -= UpdateCountWaves;
       _sceneManager.OnUpdateCountEnemyOnWave -= UpdateEnemyCount;
+      _sceneManager.Player.OnUpdateHP -= UpdateHP;
     }
 
     private void UpdateEnemyCount()

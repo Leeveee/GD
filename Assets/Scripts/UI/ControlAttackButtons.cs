@@ -18,7 +18,14 @@ namespace UI
     public ButtonWithCooldown SuperAttackComponent => _superAttack;
     private void Awake()
     {
-      Instance = this;
+      if (Instance != null && Instance != this)
+      {
+        Destroy(gameObject);
+      }
+      else
+      {
+        Instance = this;
+      }
       
       AddListeners();
     }
@@ -49,16 +56,9 @@ namespace UI
       _superAttack.Button.onClick.RemoveListener(SuperAttackClick);
     }
 
-    private void SuperAttackClick()
-    {
-      ButtonClick(_superAttack, SuperAttack);
-    }
+    private void SuperAttackClick() => ButtonClick(_superAttack, SuperAttack);
 
-    private void NormalAttackClick()
-    {
-      ButtonClick(_normalAttack,NormalAttack);
-      
-    }
+    private void NormalAttackClick() => ButtonClick(_normalAttack,NormalAttack);
 
     private void ButtonClick (ButtonWithCooldown button, Action attack)
     {
